@@ -1,13 +1,15 @@
 Node.js sample app on OpenShift!
 -----------------
 
-### This branch demonstrates the following ###
-The template `openshift/templates/nodejs.json` has been modified. To handle the proxy variable.
+### branch001 ###
+Note: The template `openshift/templates/nodejs-simple-example.yaml`
+
+Demonstrating ...
 
 - using http proxy
 - using branch
 - using GIT keys
-- Updated s2i http_proxy in bc to NPM_HTTP_PROXY
+- Updated s2i http_proxy in the custom assemble script (Build Config) to use NPM_HTTP_PROXY instead of http_proxy, for the sake of clarity.
 
 ### Creating a new project in Origin/Openshift ###
 
