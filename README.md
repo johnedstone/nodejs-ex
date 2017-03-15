@@ -20,10 +20,31 @@ oc new-project simple-nodejs
 oc secrets new-sshauth sshsecret --ssh-privatekey=$HOME/<path to key>
 oc secret add serviceaccount/builder secrets/sshsecret
 
+source env_vars.sh
+
 oc new-app -f openshift/templates/nodejs-simple-example.yaml \
 --param=MEMORY_LIMIT=${MEMORY_LIMIT} \
 --param=SOURCE_REPOSITORY_URL=${SOURCE_REPOSITORY_URL} \
 --param=SOURCE_REPOSITORY_REF=${SOURCE_REPOSITORY_REF} \
 --param=NPM_HTTP_PROXY=${NPM_HTTP_PROXY} \
 --param=NPM_HTTPS_PROXY=${NPM_HTTPS_PROXY}
+
+# watch build config
+oc logs -f bc/nodejs-simple-example
+
+# watch deploy config
+oc logs -f dc/nodejs-simple-example
+
+# clears most everything in project except secrets, for redoing oc new-app
+oc delete all --all
+
+# get URL
+oc get route
+
+# restart build after ...
+oc start-build nodejs-simple-example
+
+# watch pods
+oc get pods -w
+
 ```
