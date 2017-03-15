@@ -29,22 +29,25 @@ oc new-app -f openshift/templates/nodejs-simple-example.yaml \
 --param=NPM_HTTP_PROXY=${NPM_HTTP_PROXY} \
 --param=NPM_HTTPS_PROXY=${NPM_HTTPS_PROXY}
 
+# watch pods
+oc get pods -w
+
 # watch build config
 oc logs -f bc/nodejs-simple-example
 
 # watch deploy config
 oc logs -f dc/nodejs-simple-example
 
-# clears most everything in project except secrets, for redoing oc new-app
-oc delete all --all
-
 # get URL
 oc get route
 
-# restart build after ...
+## Let's update index.html and rebuild
+sed -i 's/Node.js application/very Special Node.js application/' views/index.html
+git commit -am "updated index.html"
+git push
 oc start-build nodejs-simple-example
 
-# watch pods
-oc get pods -w
+# clears most everything in project except secrets, for redoing oc new-app
+oc delete all --all
 
 ```
