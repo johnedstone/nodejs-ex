@@ -2,12 +2,13 @@ Node.js sample app on OpenShift!
 -----------------
 
 ### branch001 ###
-Note: The template `openshift/templates/nodejs-simple-example.yaml`
+ - Cloned from: https://github.com/openshift/nodejs-ex
 
 Demonstrating ...
 
+- using a template to start a new project: `openshift/templates/nodejs-simple-example.yaml`
 - using http proxy
-- using branch
+- using a git branch
 - using GIT keys
 - Updated s2i http_proxy in the custom assemble script (Build Config) to use NPM_HTTP_PROXY instead of http_proxy, for the sake of clarity.
 
