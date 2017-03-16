@@ -23,7 +23,6 @@ oc secret add serviceaccount/builder secrets/sshsecret
 source env_vars.sh
 
 oc new-app -f openshift/templates/nodejs-simple-example.yaml \
---param=MEMORY_LIMIT=${MEMORY_LIMIT} \
 --param=SOURCE_REPOSITORY_URL=${SOURCE_REPOSITORY_URL} \
 --param=SOURCE_REPOSITORY_REF=${SOURCE_REPOSITORY_REF} \
 --param=NPM_HTTP_PROXY=${NPM_HTTP_PROXY} \
@@ -41,18 +40,20 @@ oc logs -f dc/nodejs-simple-example
 # get URL
 oc get route
 
-## Let's update index.html and (brute force) rebuild
-sed -i 's/Node.js application/very Special Node.js application/' views/index.html
+## Let's update index.html and rebuild
+sed -i 's/Node.js application/very special Node.js application/' views/index.html
 git commit -am "updated index.html"
 git push
-# clears most everything in project except secrets, for redoing oc new-app
+oc start-build nodejs-simple-example
+
+# Or after a local change w/o pushing to git, do a start-build
+sed -i 's/very special Node.js application/very very special Node.js application/' views/index.html
+oc start-build nodejs-simple-example --from-dir=.
+
+# Clear most everything in project except secrets and then do oc new-app ...
 oc delete all --all
 oc new-app -f .... <see above>
 
-# Or after a local change
-oc start-build nodejs-simple-example --from-dir="./" --follow
-
-# Or after a git push (not as forceful as delete all)
-oc start-build nodejs-simple-example
-
+# Debug
+oc get events
 ```
