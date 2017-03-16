@@ -41,13 +41,18 @@ oc logs -f dc/nodejs-simple-example
 # get URL
 oc get route
 
-## Let's update index.html and rebuild
+## Let's update index.html and (brute force) rebuild
 sed -i 's/Node.js application/very Special Node.js application/' views/index.html
 git commit -am "updated index.html"
 git push
-oc start-build nodejs-simple-example
-
 # clears most everything in project except secrets, for redoing oc new-app
 oc delete all --all
+oc new-app -f .... <see above>
+
+# Or after a local change
+oc start-build nodejs-simple-example --from-dir="./" --follow
+
+# Or after a git push (not as forceful as delete all)
+oc start-build nodejs-simple-example
 
 ```
