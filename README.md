@@ -1,6 +1,12 @@
 Node.js sample app on OpenShift!
 -----------------
 
+### branch001 created to demonstrate ###
+- using proxy
+- using custom assemble script
+
+### Below is from the original project, from which this is cloned ###
+
 This example will serve a welcome page and the current hit count as stored in a database.
 
 ### OpenShift Origin v3 setup
